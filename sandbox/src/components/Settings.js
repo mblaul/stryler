@@ -1,24 +1,59 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+
+import SplitOnCharacter from './SplitOnCharacter';
+import SplitAtIndex from './SplitAtIndex';
 
 const Settings = ({ control, name }) => {
-  const disabled = true;
+  const initialState = {
+    splitOnCharacter: true,
+    splitAtIndex: false,
+  };
+  const [ activeTabs, setActiveTab ] = useState(initialState);
+
+  function handleTabClick(event) {
+    Object.keys(activeTabs).forEach((v) => (activeTabs[v] = false));
+    setActiveTab({ ...activeTabs, [event.target.id]: true });
+  }
 
   return (
     <Fragment>
-      <div className="form-check" />
-      <form className="pb-5" onSubmit={() => {}}>
-        <fieldset disabled={disabled}>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-            <label className="form-check-label" htmlFor="defaultCheck1">
-              Default checkbox
-            </label>
+      <ul className="nav nav-tabs nav-center" role="tablist">
+        <li className="nav-item">
+          <a
+            className="nav-link active"
+            id="splitOnCharacter"
+            href="#splitOnCharacter"
+            role="tab"
+            data-toggle="tab"
+            aria-controls="splitOnCharacter"
+            aria-expanded="true"
+            onClick={handleTabClick}
+          >
+            Split On Character (Easy Mode)
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link"
+            href="#splitAtIndex"
+            role="tab"
+            id="splitAtIndex"
+            data-toggle="tab"
+            aria-controls="splitAtIndex"
+            onClick={handleTabClick}
+          >
+            Split At Index (Advanced)
+          </a>
+        </li>
+      </ul>
+      <div className="tab-content">
+        <div role="tabpanel" className="tab-pane fade show active" aria-labelledby="panel">
+          <div className="mt-4 mx-3">
+            {activeTabs.splitOnCharacter && <SplitOnCharacter />}
+            {activeTabs.splitAtIndex && <SplitAtIndex />}
           </div>
-          <button type="submit" className="btn btn-primary btn-block">
-            Submit
-          </button>
-        </fieldset>
-      </form>
+        </div>
+      </div>
     </Fragment>
   );
 };

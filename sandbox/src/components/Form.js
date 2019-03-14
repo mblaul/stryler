@@ -1,8 +1,12 @@
 import React from 'react';
+import useForm from './useForm';
 
-const Form = ({ formSettings }) => {
+const Form = () => {
+  const initialValues = { sampleString: 'Hello world' };
+  const { values, handleChange, handleSubmit } = useForm({ initialValues });
+
   return (
-    <form className="col-xs-12 pb-5" onSubmit={(e) => e.preventDefault()}>
+    <form className="col-xs-12 pb-4" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="sampleString">Test a cool string</label>
         <input
@@ -12,9 +16,10 @@ const Form = ({ formSettings }) => {
           aria-describedby="sampleStringHelp"
           placeholder="Lorem Ipsum"
           name="sampleString"
+          value={values.sampleString}
+          onChange={handleChange}
         />
       </div>
-      <button className="btn btn-primary btn-block">Submit</button>
     </form>
   );
 };

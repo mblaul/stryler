@@ -1,15 +1,14 @@
 import { useState } from 'react';
 
-const useForm = (callback) => {
-  const [ values, setValues ] = useState({});
+const useForm = ({ initialValues = {}, callback = () => {} }) => {
+  const [ values, setValues ] = useState(initialValues);
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     event.persist();
     setValues((values) => ({ ...values, [event.target.name]: event.target.value }));
   };
 
   const handleCheckboxChange = (event) => {
-    console.log(event.target.name);
     setValues((values) => ({ ...values, [event.target.name]: event.target.value }));
   };
 

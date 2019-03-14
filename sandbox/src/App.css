@@ -1,0 +1,10 @@
+.nav-tabs > li {
+  float: none;
+  display: inline-block;
+  zoom: 1;
+  width: 50%;
+}
+
+.nav-tabs {
+  text-align: center;
+}

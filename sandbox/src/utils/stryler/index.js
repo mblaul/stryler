@@ -1,14 +1,26 @@
 import React from 'react';
 
-function createElements({ stringSegments, classNames, styles, WrapperElements, joinOn }) {
+function createElements({
+  stringSegments,
+  WrapperElements,
+  classNames,
+  styles,
+  repeatWrapperElements,
+  repeatClassNames,
+  repeatStyles,
+  joinOn,
+}) {
   let styledStrings = [];
 
   stringSegments.forEach((string, index) => {
-    let WrapperElement = WrapperElements[index];
+    let WrapperElement =
+      WrapperElements[index] || (repeatWrapperElements && WrapperElements[index % WrapperElements.length]);
+    let className = classNames[index] || (repeatClassNames && classNames[index % classNames.length]);
+    let style = styles[index] || (repeatStyles && styles[index % styles.length]);
 
     if (joinOn && index !== stringSegments.length) string += joinOn;
     let styledElement = (
-      <WrapperElement className={classNames[index]} style={styles[index]} key={index}>
+      <WrapperElement className={className} style={style} key={index}>
         {string}
       </WrapperElement>
     );
@@ -18,7 +30,17 @@ function createElements({ stringSegments, classNames, styles, WrapperElements, j
   return styledStrings;
 }
 
-function index({ string, splitAt, splitOn, WrapperElements = [ 'span' ], classNames = [], styles = [] }) {
+function index({
+  string,
+  splitAt,
+  splitOn,
+  WrapperElements = [ 'span' ],
+  repeatWrapperElements = true,
+  classNames = [],
+  repeatClassNames = true,
+  styles = [],
+  repeatStyles = true,
+}) {
   let styledStrings = [];
   let stringSegments = [];
 
@@ -39,7 +61,16 @@ function index({ string, splitAt, splitOn, WrapperElements = [ 'span' ], classNa
 
   if (splitOn) {
     stringSegments = string.split(splitOn);
-    styledStrings = createElements({ stringSegments, classNames, styles, WrapperElements, joinOn: splitOn });
+    styledStrings = createElements({
+      stringSegments,
+      WrapperElements,
+      classNames,
+      styles,
+      repeatWrapperElements,
+      repeatClassNames,
+      repeatStyles,
+      joinOn: splitOn,
+    });
   }
 
   return <React.Fragment>{styledStrings.map((styledString) => styledString)}</React.Fragment>;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 const useForm = ({ initialValues = {}, changeCallback = () => {}, submitCallback = () => {} }) => {
   const [ values, setValues ] = useState(initialValues);
 
-  const handleChange = async (event) => {
+  const handleChange = (event) => {
     event.persist();
     setValues((values) => ({ ...values, [event.target.name]: event.target.value }));
     changeCallback();

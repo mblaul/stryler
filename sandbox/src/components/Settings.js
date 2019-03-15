@@ -3,13 +3,12 @@ import React, { Fragment, useState } from 'react';
 import SplitOnCharacter from './SplitOnCharacter';
 import SplitAtIndex from './SplitAtIndex';
 
-const Settings = () => {
+const Settings = ({ setStrylerSettings }) => {
   const initialState = {
     splitOnCharacter: true,
     splitAtIndex: false,
   };
   const [ activeTabs, setActiveTab ] = useState(initialState);
-  const [ strylerSettings, setStrylerSettings ] = useState({});
 
   function handleTabClick(event) {
     Object.keys(activeTabs).forEach((v) => (activeTabs[v] = false));

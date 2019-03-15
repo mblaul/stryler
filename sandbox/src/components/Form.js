@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import Settings from './Settings';
 import useForm from './useForm';
 
@@ -7,7 +7,8 @@ import Stryler from '../utils/stryler';
 const Form = () => {
   const initialValues = { sampleString: 'Hello world' };
   const { values, handleChange, handleSubmit } = useForm({ initialValues });
-  const sampleString = 'lorem ipsum';
+  const [ strylerSettings, setStrylerSettings ] = useState({});
+
   return (
     <Fragment>
       <form className="col-xs-12 pb-5" onSubmit={handleSubmit}>
@@ -28,26 +29,15 @@ const Form = () => {
       </form>
       <div className="row">
         <div className="col-md-6 col-xs-12">
-          <Settings />
+          <Settings setStrylerSettings={setStrylerSettings} />
         </div>
         <div className="col-md-6 col-xs-12">
-          <div className={'row'}>
-            <Stryler
-              string={values.sampleString}
-              splitAt={[ 3, 6 ]}
-              WrapperElements={[ 'span', 'div', 'span' ]}
-              classNames={[ 'alert-warning', 'alert-success', 'alert-danger' ]}
-              styles={[ { fontSize: 36 }, { transform: 'rotate(-45deg)' }, { lineHeight: 1 } ]}
-            />
-          </div>
-          <div className={'row text-center'}>
-            <Stryler
-              string={sampleString}
-              splitOn={' '}
-              WrapperElements={[ 'span', 'div' ]}
-              classNames={[ 'App-link', 'App-text' ]}
-              styles={[ { fontSize: 36 }, { transform: 'rotate(-15deg)' } ]}
-            />
+          <div className="row">
+            <div className="mx-auto my-auto">
+              {strylerSettings.mode === 'splitOn' && (
+                <Stryler string={values.sampleString} WrapperElements={[ 'span', 'span' ]} {...strylerSettings} />
+              )}
+            </div>
           </div>
         </div>
       </div>

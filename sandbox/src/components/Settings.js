@@ -3,12 +3,13 @@ import React, { Fragment, useState } from 'react';
 import SplitOnCharacter from './SplitOnCharacter';
 import SplitAtIndex from './SplitAtIndex';
 
-const Settings = ({ control, name }) => {
+const Settings = () => {
   const initialState = {
     splitOnCharacter: true,
     splitAtIndex: false,
   };
   const [ activeTabs, setActiveTab ] = useState(initialState);
+  const [ strylerSettings, setStrylerSettings ] = useState({});
 
   function handleTabClick(event) {
     Object.keys(activeTabs).forEach((v) => (activeTabs[v] = false));
@@ -49,8 +50,8 @@ const Settings = ({ control, name }) => {
       <div className="tab-content">
         <div role="tabpanel" className="tab-pane fade show active" aria-labelledby="panel">
           <div className="mt-4 mx-3">
-            {activeTabs.splitOnCharacter && <SplitOnCharacter />}
-            {activeTabs.splitAtIndex && <SplitAtIndex />}
+            {activeTabs.splitOnCharacter && <SplitOnCharacter setStrylerSettings={setStrylerSettings} />}
+            {activeTabs.splitAtIndex && <SplitAtIndex setStrylerSettings={setStrylerSettings} />}
           </div>
         </div>
       </div>

@@ -1,20 +1,33 @@
 import { useState } from 'react';
 
-const useForm = ({ initialValues = {}, callback = () => {} }) => {
+const useForm = ({ initialValues = {}, changeCallback = () => {}, submitCallback = () => {} }) => {
   const [ values, setValues ] = useState(initialValues);
 
   const handleChange = async (event) => {
     event.persist();
     setValues((values) => ({ ...values, [event.target.name]: event.target.value }));
+    changeCallback();
   };
 
   const handleCheckboxChange = (event) => {
-    setValues((values) => ({ ...values, [event.target.name]: event.target.value }));
+    event.persist();
+    let classNames = values.classNames || [];
+    if (event.target.checked) {
+      classNames.push(event.target.value);
+    } else {
+      let removalIndex = classNames.indexOf(event.target.value);
+      if (removalIndex > -1) classNames.splice(removalIndex, 1);
+    }
+
+    setValues((values) => ({
+      ...values,
+      classNames,
+    }));
   };
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
-    callback();
+    submitCallback();
   };
 
   return {

@@ -2,8 +2,15 @@ import React from 'react';
 
 import useForm from './useForm';
 
-const SplitAtIndex = (props) => {
-  const { values, handleChange, handleSubmit } = useForm({});
+const SplitAtIndex = ({ setStrylerSettings }) => {
+  const { values, handleChange, handleSubmit } = useForm({ submitCallback: updateSettings });
+
+  function updateSettings() {
+    setStrylerSettings({
+      mode: 'splitAt',
+      ...values,
+    });
+  }
 
   return (
     <form className="col-xs-12 pb-4" onSubmit={handleSubmit}>
@@ -12,11 +19,11 @@ const SplitAtIndex = (props) => {
         <input
           type="text"
           className="form-control"
-          id="splitAtIndexes"
-          aria-describedby="splitAtIndexesHelp"
-          placeholder="[1,3]"
-          name="splitAtIndexes"
-          value={values.splitAtIndexes}
+          id="splitAt"
+          aria-describedby="splitAtHelp"
+          placeholder="1,3"
+          name="splitAt"
+          value={values.splitAt}
           onChange={handleChange}
         />
       </div>
